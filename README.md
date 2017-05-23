@@ -1,18 +1,12 @@
 # Chopper: Full-Stack Note-Taking App
 
-Chopper is a feature-rich, full-stack note-taking application built using **Typescript** for a robust foundation. It combines the power of **React** for the frontend with **MongoDB**, **Express**, and **Node.js (MERN)** for the backend, creating a seamless and efficient note-taking experience.
+Chopper is full-stack note-taking application built using **Typescript** for a robust foundation. It combines the power of **React** for the frontend with **MongoDB**, **Express**, and **Node.js (MERN)** for the backend, creating a seamless and efficient note-taking experience.
 
 ## Features
 
 - **User-Friendly Interface**: Yagami offers an intuitive and user-friendly interface, making it easy to create, manage, and organize your notes.
 
-- **Real-Time Updates**: Enjoy real-time synchronization of your notes across multiple devices, ensuring you always have access to your latest changes.
-
-- **Rich Text Formatting**: Format your notes using a rich text editor, including text styles, lists, and more, to make your notes visually appealing and organized.
-
 - **Secure Authentication**: Your data is protected with secure user authentication, so your notes remain private and accessible only to you.
-
-- **Custom Categories**: Create custom categories and tags to efficiently categorize and search for your notes.
 
 - **Responsive Design**: Yagami is built with a responsive design, ensuring a seamless experience on both desktop and mobile devices.
 
