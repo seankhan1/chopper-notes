@@ -1,5 +1,6 @@
-import { useRecoilState } from "recoil";
+import { FormEvent, useState, useEffect } from "react";
 import { Note } from "../App";
+import { useParams } from "react-router-dom";
 
 interface PropInterface {
 	notes: Note[];
@@ -7,10 +8,37 @@ interface PropInterface {
 }
 
 function Edit({ notes, setNotes }: PropInterface) {
-	// const note = notes.find(t=>t.id===)
+	const [form, setForm] = useState<Note>({ id: null, title: "", body: "" });
+	const { id } = useParams();
+	useEffect(() => {
+		const note = notes.find((t) => t.id === id);
+		if (note) {
+			setForm(note);
+		}
+	}, [notes, id]);
+
+	const handleSubmit = (e: FormEvent) => {
+		e.preventDefault();
+		const noteIndex = notes.findIndex((t) => t.id === id);
+
+		if (noteIndex !== -1) {
+			// to store the updated value
+			const updatedNote = { ...notes[noteIndex], ...form };
+
+			// a copy of all the notes
+			const updatedNotes = [...notes];
+
+			// update the notes
+			updatedNotes[noteIndex] = updatedNote;
+			localStorage.setItem("NOTES", JSON.stringify(updatedNotes));
+
+			setNotes(updatedNotes);
+		}
+	};
+
 	return (
 		<div className="mt-16 px-2 sm:px-1  ">
-			<form onSubmit={handleSubmit} className="max-w-5xl">
+			<form onSubmit={(e) => handleSubmit(e)} className="max-w-5xl">
 				<div className=" ">
 					<label
 						htmlFor="title"
@@ -22,9 +50,9 @@ function Edit({ notes, setNotes }: PropInterface) {
 						type="text"
 						placeholder="Enter title..."
 						aria-label="Title input"
-						value={note.title}
+						value={form.title}
 						onChange={(e) => {
-							setNotes({ ...form, title: e.target.value });
+							setForm({ ...form, title: e.target.value });
 						}}
 						className="max-w-full w-[440px]  dark:text-gray-100 rounded-md p-1 border-2 dark:border-gray-100 border-gray-700 dark:bg-gray-700"
 						required
@@ -60,9 +88,9 @@ function Edit({ notes, setNotes }: PropInterface) {
 						rows={12}
 						placeholder="Note"
 						aria-label="Notes input"
-						value={note.body}
+						value={form.body}
 						onChange={(e) => {
-							// setForm({ ...form, body: e.target.value });
+							setForm({ ...form, body: e.target.value });
 						}}
 						className="max-w-7xl dark:text-gray-100 rounded-md p-1 border-2 dark:border-gray-100 border-gray-700 dark:bg-gray-700"
 						required
@@ -72,7 +100,7 @@ function Edit({ notes, setNotes }: PropInterface) {
 					type="submit"
 					className="text-gray-100  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg  px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
 				>
-					Submit
+					Edit
 				</button>
 			</form>
 		</div>

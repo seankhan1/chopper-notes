@@ -4,7 +4,7 @@ import "./App.css";
 import Home from "./Components/Home";
 import Create from "./Components/Create";
 // import Open from "./Components/Open";
-// import Edit from "./Components/Edit";
+import Edit from "./Components/Edit";
 import Navbar from "./Components/Navbar";
 
 export interface Note {
@@ -29,7 +29,10 @@ function App() {
 						path="/"
 						element={<Home notes={notes} setNotes={setNotes} />}
 					/>
-					{/* <Route path="/edit" element={<Edit />} /> */}
+					<Route
+						path="/edit/:id"
+						element={<Edit notes={notes} setNotes={setNotes} />}
+					/>
 					<Route
 						path="/create"
 						element={<Create notes={notes} setNotes={setNotes} />}

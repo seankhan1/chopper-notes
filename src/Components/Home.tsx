@@ -35,9 +35,12 @@ function Home({ notes, setNotes }: notesType) {
 		localStorage.setItem("NOTES", JSON.stringify(updatedNotes));
 	};
 
-	const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+	const handleEdit = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+		key: string | null
+	) => {
 		e.preventDefault();
-		navigate("/edit");
+		navigate(`/edit/${key}`);
 	};
 
 	return (
@@ -45,7 +48,7 @@ function Home({ notes, setNotes }: notesType) {
 			{notes?.map((note) => (
 				<div
 					key={note.id}
-					className="flex flex-col justify-around w-[240px] h-[160px] dark:bg-gray-300 bg-gray-100 bg-opacity-80 dark:text-gray-700 text-gray-800 dark:border-white border-gray-300 border-4 rounded-2xl p-3 overflow-clip"
+					className="flex flex-col justify-around w-[240px] h-[160px] bg-transparent  text-gray-700 dark:text-gray-200 dark:border-white border-gray-300 border-4 rounded-2xl p-3 overflow-clip"
 				>
 					<main>
 						<h1 className="font-bold text-xl">{note.title}</h1>
@@ -61,7 +64,7 @@ function Home({ notes, setNotes }: notesType) {
 								className="h-6"
 							></img>
 						</button>
-						<button onClick={(e) => handleEdit(e)}>
+						<button onClick={(e) => handleEdit(e, note.id)}>
 							{" "}
 							<img src={editImage} alt="edit note button" className="h-5"></img>
 						</button>
