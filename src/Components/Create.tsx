@@ -1,20 +1,64 @@
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { Note } from "../App";
+import Cookies from "js-cookie";
 
 interface PropInterface {
 	notes: Note[];
 	setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
 }
 
-function Create({ notes, setNotes }: PropInterface) {
-	const [form, setForm] = useState<Note>({ id: null, title: "", body: "" });
+const Base_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
 
-	const handleSubmit = () => {
-		const newNote = { ...form, id: uuidv4() };
-		setNotes([...notes, newNote]);
-		localStorage.setItem("NOTES", JSON.stringify([...notes, newNote]));
-		setForm({ id: null, title: "", body: "" });
+function Create({ notes, setNotes }: PropInterface) {
+	const [form, setForm] = useState<Note>({ _id: null, title: "", body: "" });
+	const token = Cookies.get("token");
+
+	const createNoteOnServer = async (newNote: Note) => {
+		try {
+			// console.log(newNote);
+			const createReq = await fetch(Base_URL + "/notes", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify({ title: newNote.title, body: newNote.body }),
+			});
+			// console.log(createReq);
+
+			if (createReq.ok) {
+				// Note created on the server
+				const data = createReq.json();
+				console.log(data);
+				return true;
+			} else {
+				console.error("Failed to create the note on the server.");
+				return false;
+			}
+		} catch (error) {
+			console.error(
+				"Error occurred while creating the note on the server:",
+				error
+			);
+			return false;
+		}
+	};
+
+	const handleSubmit = async () => {
+		const newNote = { ...form };
+		// localStorage.setItem("NOTES", JSON.stringify([...notes, newNote]));
+
+		// Create the same note on the server
+		const createdOnServer = await createNoteOnServer(newNote);
+
+		if (createdOnServer) {
+			setNotes([...notes, newNote]);
+			// console.log("Note created on the server successfully.");
+			setForm({ _id: null, title: "", body: "" });
+		} else {
+			console.error("Couldn't create note on server");
+		}
 	};
 
 	return (
