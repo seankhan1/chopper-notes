@@ -12,7 +12,7 @@ Chopper is full-stack note-taking application built using **Typescript** for a r
 
 ## Demo
 
-Check out the Yagami app in action by watching this demo:
+Check out the Chopper app in action by watching this demo: 👇
 
 [![Yagami Demo](https://img.youtube.com/vi/6Qc0IuvDCps/0.jpg)](https://www.youtube.com/watch?v=6Qc0IuvDCps)
 
